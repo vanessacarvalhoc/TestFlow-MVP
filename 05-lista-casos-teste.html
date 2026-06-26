@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>TestFlow – Lista de Casos de Teste</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background: #F0F2F5; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .screen { width: 1280px; height: 800px; background: #F0F2F5; display: flex; overflow: hidden; border: 2px solid #CCC; position: relative; }
+  .sidebar { width: 220px; background: #1E2D5A; display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-logo { padding: 24px 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .logo { color: #fff; font-size: 22px; font-weight: 800; }
+  .logo span { color: #4FC3F7; }
+  .project { color: #90CAF9; font-size: 12px; margin-top: 4px; }
+  .nav { padding: 16px 0; flex: 1; }
+  .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 20px; color: #90CAF9; font-size: 14px; cursor: pointer; }
+  .nav-item.active { background: rgba(79,195,247,0.15); color: #fff; border-right: 3px solid #4FC3F7; }
+  .nav-icon { font-size: 18px; width: 20px; text-align: center; }
+  .sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .user-info { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; background: #4FC3F7; color: #1E2D5A; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .user-name { color: #fff; font-size: 13px; font-weight: 600; }
+  .user-role { color: #90CAF9; font-size: 11px; }
+  .main { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+  .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #EEE; flex-shrink: 0; }
+  .topbar h1 { font-size: 20px; font-weight: 700; color: #1E2D5A; }
+  .topbar-actions { display: flex; gap: 10px; align-items: center; }
+  .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
+  .btn-primary { background: #1E2D5A; color: #fff; }
+  .btn-outline { background: #fff; color: #1E2D5A; border: 1.5px solid #DDE1E7; }
+  .search-bar { border: 1.5px solid #DDE1E7; border-radius: 8px; padding: 8px 14px; font-size: 13px; width: 220px; background: #F9FAFB; }
+  .body-area { flex: 1; display: flex; overflow: hidden; }
+  /* Árvore de módulos */
+  .tree { width: 220px; background: #fff; border-right: 1px solid #EEE; overflow-y: auto; padding: 16px 0; flex-shrink: 0; }
+  .tree-title { font-size: 11px; font-weight: 700; color: #AAA; padding: 0 16px 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tree-item { padding: 8px 16px; font-size: 13px; color: #444; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .tree-item.active { background: #EBF3FF; color: #1E2D5A; font-weight: 600; border-right: 3px solid #1E88E5; }
+  .tree-item:hover { background: #F5F7FF; }
+  .tree-badge { margin-left: auto; background: #F0F2F5; color: #888; font-size: 11px; padding: 2px 7px; border-radius: 10px; }
+  .tree-item.active .tree-badge { background: #1E2D5A; color: #fff; }
+  /* Tabela */
+  .table-area { flex: 1; overflow-y: auto; padding: 20px 24px; }
+  .table-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .table-header h2 { font-size: 16px; font-weight: 700; color: #1E2D5A; }
+  .table-header .count { font-size: 13px; color: #888; }
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+  .filter-chip { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1.5px solid #DDE1E7; background: #fff; color: #666; cursor: pointer; }
+  .filter-chip.active { background: #1E2D5A; color: #fff; border-color: #1E2D5A; }
+  .ct-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .ct-table th { background: #F8F9FB; text-align: left; font-size: 12px; color: #888; font-weight: 600; padding: 12px 14px; border-bottom: 1px solid #F0F2F5; }
+  .ct-table td { padding: 11px 14px; font-size: 13px; color: #333; border-bottom: 1px solid #F9FAFB; }
+  .ct-table tr:hover td { background: #F5F7FF; }
+  .status-badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .s-ok { background: #E8F5E9; color: #2E7D32; }
+  .s-fail { background: #FFEBEE; color: #C62828; }
+  .s-pend { background: #FFF8E1; color: #F57F17; }
+  .s-block { background: #F3E5F5; color: #7B1FA2; }
+  .p-high { color: #C62828; font-weight: 700; }
+  .p-med { color: #E65100; font-weight: 600; }
+  .p-low { color: #2E7D32; }
+  .actions { display: flex; gap: 6px; }
+  .action-btn { padding: 4px 10px; border-radius: 6px; font-size: 11px; border: 1px solid #DDE1E7; background: #fff; color: #555; cursor: pointer; }
+  .badge { position: absolute; top: 16px; right: 16px; background: #1E2D5A; color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="screen">
+  <span class="badge">WIREFRAME – Tela 05 / Lista de Casos de Teste</span>
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo">Test<span>Flow</span></div>
+      <div class="project">📁 App PedagioDigital</div>
+    </div>
+    <div class="nav">
+      <div class="nav-item"><span class="nav-icon">📊</span> Dashboard</div>
+      <div class="nav-item active"><span class="nav-icon">📋</span> Casos de Teste</div>
+      <div class="nav-item"><span class="nav-icon">▶️</span> Execuções</div>
+      <div class="nav-item"><span class="nav-icon">🐛</span> Defeitos</div>
+      <div class="nav-item"><span class="nav-icon">📄</span> Relatórios</div>
+      <div class="nav-item"><span class="nav-icon">⚙️</span> Configurações</div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar">VC</div>
+        <div><div class="user-name">Vanessa Carvalho</div><div class="user-role">QA Analyst</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <h1>Casos de Teste</h1>
+      <div class="topbar-actions">
+        <input class="search-bar" placeholder="🔍  Buscar casos de teste..." />
+        <button class="btn btn-outline">📁 Novo Módulo</button>
+        <button class="btn btn-primary">+ Novo CT</button>
+      </div>
+    </div>
+    <div class="body-area">
+      <div class="tree">
+        <div class="tree-title">Módulos</div>
+        <div class="tree-item">📂 Todos os CTs <span class="tree-badge">104</span></div>
+        <div class="tree-item active">📁 Login <span class="tree-badge">22</span></div>
+        <div class="tree-item">📁 Cadastro de Usuário <span class="tree-badge">20</span></div>
+        <div class="tree-item">📁 Pagamento Logado <span class="tree-badge">14</span></div>
+        <div class="tree-item">📁 Pagamento S/ Login <span class="tree-badge">12</span></div>
+        <div class="tree-item">📁 Gerenc. Veículos <span class="tree-badge">8</span></div>
+        <div class="tree-item">📁 ARTESP / Siga Fácil <span class="tree-badge">5</span></div>
+        <div class="tree-item">📁 Fluxo Feliz <span class="tree-badge">10</span></div>
+        <div class="tree-item">📁 Layout e UI <span class="tree-badge">5</span></div>
+        <div class="tree-item">📁 Região Metropolitana <span class="tree-badge">3</span></div>
+        <div class="tree-item">📁 Segurança e Acesso <span class="tree-badge">1</span></div>
+        <div class="tree-item">📁 Carta de Quitação <span class="tree-badge">1</span></div>
+        <div class="tree-item">📁 PIX Roteamento <span class="tree-badge">2</span></div>
+      </div>
+      <div class="table-area">
+        <div class="table-header">
+          <h2>Login <span style="color:#888;font-weight:400;font-size:14px;"> — 22 casos de teste</span></h2>
+        </div>
+        <div class="filter-bar">
+          <button class="filter-chip active">Todos (22)</button>
+          <button class="filter-chip">✅ Aprovados (18)</button>
+          <button class="filter-chip">❌ Reprovados (2)</button>
+          <button class="filter-chip">⏳ Pendentes (1)</button>
+          <button class="filter-chip">🚫 Bloqueados (1)</button>
+        </div>
+        <table class="ct-table">
+          <thead>
+            <tr>
+              <th style="width:70px">ID</th>
+              <th>Título</th>
+              <th style="width:80px">Prioridade</th>
+              <th style="width:100px">Status HML</th>
+              <th style="width:100px">Status PRD</th>
+              <th style="width:100px">Responsável</th>
+              <th style="width:90px">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>CT01</b></td>
+              <td>Login com e-mail e senha válidos</td>
+              <td class="p-high">Alta</td>
+              <td><span class="status-badge s-ok">Aprovado</span></td>
+              <td><span class="status-badge s-ok">Aprovado</span></td>
+              <td>Vanessa Carvalho</td>
+              <td><div class="actions"><button class="action-btn">✏️</button><button class="action-btn">▶️</button></div></td>
+            </tr>
+            <tr>
+              <td><b>CT02</b></td>
+              <td>Login com e-mail inválido</td>
+              <td class="p-high">Alta</td>
+              <td><span class="status-badge s-ok">Aprovado</span></td>
+              <td><span class="status-badge s-pend">Pendente</span></td>
+              <td>Vanessa Carvalho</td>
+              <td><div class="actions"><button class="action-btn">✏️</button><button class="action-btn">▶️</button></div></td>
+            </tr>
+            <tr>
+              <td><b>CT03</b></td>
+              <td>Login com senha incorreta</td>
+              <td class="p-high">Alta</td>
+              <td><span class="status-badge s-ok">Aprovado</span></td>
+              <td><span class="status-badge s-ok">Aprovado</span></td>
+              <td>Carlos</td>
+              <td><div class="actions"><button class="action-btn">✏️</button><button class="action-btn">▶️</button></div></td>
+            </tr>
+            <tr>
+              <td><b>CT04</b></td>
+              <td>Login com campos em branco</td>
+              <td class="p-med">Média</td>
+              <td><span class="status-badge s-ok">Aprovado</span></td>
+              <td><span class="status-badge s-ok">Aprovado</span></td>
+              <td>Vanessa Carvalho</td>
+              <td><div class="actions"><button class="action-btn">✏️</button><button class="action-btn">▶️</button></div></td>
+            </tr>
+            <tr>
+              <td><b>CT05</b></td>
+              <td>Recuperação de senha via e-mail</td>
+              <td class="p-med">Média</td>
+              <td><span class="status-badge s-fail">Reprovado</span></td>
+              <td><span class="status-badge s-pend">Pendente</span></td>
+              <td>Vanessa Carvalho</td>
+              <td><div class="actions"><button class="action-btn">✏️</button><button class="action-btn">▶️</button></div></td>
+            </tr>
+            <tr>
+              <td><b>CT06</b></td>
+              <td>Manter sessão após fechar o browser</td>
+              <td class="p-low">Baixa</td>
+              <td><span class="status-badge s-block">Bloqueado</span></td>
+              <td><span class="status-badge s-pend">Pendente</span></td>
+              <td>Carlos</td>
+              <td><div class="actions"><button class="action-btn">✏️</button><button class="action-btn">▶️</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

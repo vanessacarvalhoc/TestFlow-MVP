@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>TestFlow – Cadastro</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background: #F0F2F5; display: flex; align-items: center; justify-content: center; height: 100vh; }
+  .screen { width: 1280px; height: 800px; background: #F0F2F5; display: flex; overflow: hidden; border: 2px solid #CCC; position: relative; }
+  .left { width: 50%; background: #1E2D5A; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; }
+  .logo { color: #fff; font-size: 42px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+  .logo span { color: #4FC3F7; }
+  .steps { width: 100%; max-width: 340px; }
+  .step { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; background: #4FC3F7; color: #1E2D5A; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-info strong { color: #fff; font-size: 15px; display: block; margin-bottom: 3px; }
+  .step-info span { color: #90CAF9; font-size: 13px; }
+  .right { width: 50%; display: flex; align-items: center; justify-content: center; padding: 60px; }
+  .card { background: #fff; border-radius: 16px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+  .card-title { font-size: 24px; font-weight: 700; color: #1E2D5A; margin-bottom: 6px; }
+  .card-sub { font-size: 13px; color: #888; margin-bottom: 28px; }
+  label { font-size: 12px; font-weight: 600; color: #444; display: block; margin-bottom: 5px; }
+  input, select { width: 100%; border: 1.5px solid #DDE1E7; border-radius: 8px; padding: 11px 13px; font-size: 14px; color: #333; background: #F9FAFB; margin-bottom: 16px; }
+  .row { display: flex; gap: 14px; }
+  .row > div { flex: 1; }
+  .terms { font-size: 12px; color: #888; margin-bottom: 20px; line-height: 1.5; }
+  .terms a { color: #1E88E5; }
+  .btn-primary { width: 100%; background: #1E2D5A; color: #fff; border: none; border-radius: 8px; padding: 13px; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .login-link { text-align: center; font-size: 13px; color: #666; margin-top: 16px; }
+  .login-link a { color: #1E88E5; font-weight: 600; }
+  .badge { position: absolute; top: 16px; left: 16px; background: rgba(255,255,255,0.15); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="screen">
+  <span class="badge">WIREFRAME – Tela 02 / Cadastro</span>
+  <div class="left">
+    <div class="logo">Test<span>Flow</span></div>
+    <br><br>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-info"><strong>Crie sua conta</strong><span>Preencha seus dados básicos</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-info"><strong>Configure seu time</strong><span>Convide seus colegas de QA</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-info"><strong>Crie seu projeto</strong><span>Comece a cadastrar casos de teste</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-info"><strong>Execute e meça</strong><span>Dashboard automático desde o 1º dia</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="card">
+      <div class="card-title">Criar conta grátis</div>
+      <div class="card-sub">14 dias grátis, sem cartão de crédito</div>
+      <div class="row">
+        <div><label>Nome</label><input value="Vanessa" /></div>
+        <div><label>Sobrenome</label><input value="Carvalho" /></div>
+      </div>
+      <label>E-mail corporativo</label>
+      <input value="vanessa.carvalho@empresa.com" />
+      <label>Senha</label>
+      <input type="password" value="••••••••" />
+      <label>Nome da empresa</label>
+      <input value="Empresa Tech Ltda" />
+      <label>Tamanho do time de QA</label>
+      <select><option>1 a 3 pessoas</option></select>
+      <div class="terms">Ao criar sua conta, você concorda com os <a>Termos de Uso</a> e a <a>Política de Privacidade</a> do TestFlow.</div>
+      <button class="btn-primary">Criar minha conta</button>
+      <div class="login-link">Já tem conta? <a>Fazer login</a></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

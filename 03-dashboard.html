@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>TestFlow – Dashboard</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background: #F0F2F5; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .screen { width: 1280px; height: 800px; background: #F0F2F5; display: flex; overflow: hidden; border: 2px solid #CCC; position: relative; }
+  /* Sidebar */
+  .sidebar { width: 220px; background: #1E2D5A; display: flex; flex-direction: column; padding: 0; flex-shrink: 0; }
+  .sidebar-logo { padding: 24px 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .sidebar-logo .logo { color: #fff; font-size: 22px; font-weight: 800; }
+  .sidebar-logo .logo span { color: #4FC3F7; }
+  .sidebar-logo .project { color: #90CAF9; font-size: 12px; margin-top: 4px; }
+  .nav { padding: 16px 0; flex: 1; }
+  .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 20px; color: #90CAF9; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+  .nav-item.active { background: rgba(79,195,247,0.15); color: #fff; border-right: 3px solid #4FC3F7; }
+  .nav-item:hover { background: rgba(255,255,255,0.05); }
+  .nav-icon { font-size: 18px; width: 20px; text-align: center; }
+  .sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .user-info { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; background: #4FC3F7; color: #1E2D5A; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .user-name { color: #fff; font-size: 13px; font-weight: 600; }
+  .user-role { color: #90CAF9; font-size: 11px; }
+  /* Main */
+  .main { flex: 1; overflow-y: auto; }
+  .topbar { background: #fff; padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #EEE; }
+  .topbar h1 { font-size: 20px; font-weight: 700; color: #1E2D5A; }
+  .topbar .sprint-badge { background: #E8F5E9; color: #2E7D32; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
+  .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
+  .btn-primary { background: #1E2D5A; color: #fff; }
+  .content { padding: 24px 28px; }
+  /* Cards de métricas */
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .metric-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .metric-label { font-size: 12px; color: #888; font-weight: 500; margin-bottom: 8px; }
+  .metric-value { font-size: 32px; font-weight: 800; }
+  .metric-sub { font-size: 12px; color: #888; margin-top: 4px; }
+  .v-total { color: #1E2D5A; }
+  .v-green { color: #2E7D32; }
+  .v-red { color: #C62828; }
+  .v-yellow { color: #F57F17; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+  /* Progress bar */
+  .progress-section { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .section-title { font-size: 15px; font-weight: 700; color: #1E2D5A; margin-bottom: 16px; }
+  .module-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .module-name { width: 200px; font-size: 13px; color: #444; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 10px; background: #F0F2F5; border-radius: 5px; overflow: hidden; display: flex; }
+  .bar-green { height: 100%; background: #43A047; border-radius: 5px 0 0 5px; }
+  .bar-red { height: 100%; background: #E53935; }
+  .bar-yellow { height: 100%; background: #FDD835; }
+  .bar-gray { height: 100%; background: #BDBDBD; border-radius: 0 5px 5px 0; }
+  .module-pct { width: 50px; text-align: right; font-size: 12px; font-weight: 600; color: #444; }
+  /* Tabela recentes */
+  .table-section { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; color: #888; font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #F0F2F5; }
+  td { padding: 10px 12px; font-size: 13px; color: #444; border-bottom: 1px solid #F9FAFB; }
+  .status-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .s-ok { background: #E8F5E9; color: #2E7D32; }
+  .s-fail { background: #FFEBEE; color: #C62828; }
+  .s-pend { background: #FFF8E1; color: #F57F17; }
+  .s-block { background: #F3E5F5; color: #7B1FA2; }
+  .badge { position: absolute; top: 16px; right: 16px; background: #1E2D5A; color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="screen">
+  <span class="badge">WIREFRAME – Tela 03 / Dashboard</span>
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo">Test<span>Flow</span></div>
+      <div class="project">📁 App PedagioDigital</div>
+    </div>
+    <div class="nav">
+      <div class="nav-item active"><span class="nav-icon">📊</span> Dashboard</div>
+      <div class="nav-item"><span class="nav-icon">📋</span> Casos de Teste</div>
+      <div class="nav-item"><span class="nav-icon">▶️</span> Execuções</div>
+      <div class="nav-item"><span class="nav-icon">🐛</span> Defeitos</div>
+      <div class="nav-item"><span class="nav-icon">📄</span> Relatórios</div>
+      <div class="nav-item"><span class="nav-icon">⚙️</span> Configurações</div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar">VC</div>
+        <div>
+          <div class="user-name">Vanessa Carvalho</div>
+          <div class="user-role">QA Analyst</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <h1>Dashboard</h1>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="sprint-badge">🔄 Sprint 23 — em andamento</span>
+        <button class="btn btn-primary">+ Nova Execução</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="metrics">
+        <div class="metric-card">
+          <div class="metric-label">Total de Casos de Teste</div>
+          <div class="metric-value v-total">104</div>
+          <div class="metric-sub">na sprint atual</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label"><span class="dot" style="background:#43A047"></span>Aprovados</div>
+          <div class="metric-value v-green">67</div>
+          <div class="metric-sub">64% do total</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label"><span class="dot" style="background:#E53935"></span>Reprovados</div>
+          <div class="metric-value v-red">12</div>
+          <div class="metric-sub">11% do total</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label"><span class="dot" style="background:#FDD835"></span>Pendentes</div>
+          <div class="metric-value v-yellow">25</div>
+          <div class="metric-sub">25% do total</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="section-title">Cobertura por Módulo</div>
+        <div class="module-row">
+          <div class="module-name">Login</div>
+          <div class="bar-track"><div class="bar-green" style="width:90%"></div><div class="bar-red" style="width:5%"></div><div class="bar-gray" style="width:5%"></div></div>
+          <div class="module-pct">90%</div>
+        </div>
+        <div class="module-row">
+          <div class="module-name">Cadastro de Usuário</div>
+          <div class="bar-track"><div class="bar-green" style="width:75%"></div><div class="bar-red" style="width:10%"></div><div class="bar-yellow" style="width:5%"></div><div class="bar-gray" style="width:10%"></div></div>
+          <div class="module-pct">75%</div>
+        </div>
+        <div class="module-row">
+          <div class="module-name">Pagamento Logado</div>
+          <div class="bar-track"><div class="bar-green" style="width:60%"></div><div class="bar-red" style="width:15%"></div><div class="bar-yellow" style="width:10%"></div><div class="bar-gray" style="width:15%"></div></div>
+          <div class="module-pct">60%</div>
+        </div>
+        <div class="module-row">
+          <div class="module-name">ARTESP / Siga Fácil</div>
+          <div class="bar-track"><div class="bar-green" style="width:50%"></div><div class="bar-gray" style="width:50%"></div></div>
+          <div class="module-pct">50%</div>
+        </div>
+        <div class="module-row">
+          <div class="module-name">Fluxo Feliz</div>
+          <div class="bar-track"><div class="bar-green" style="width:100%"></div></div>
+          <div class="module-pct">100%</div>
+        </div>
+      </div>
+      <div class="table-section">
+        <div class="section-title">Últimas Execuções</div>
+        <table>
+          <thead><tr><th>ID</th><th>Caso de Teste</th><th>Módulo</th><th>Executado por</th><th>Status</th><th>Data</th></tr></thead>
+          <tbody>
+            <tr><td>CT83</td><td>PIX somente acima de R$0,50</td><td>Região Metropolitana</td><td>Vanessa Carvalho</td><td><span class="status-badge s-ok">Aprovado</span></td><td>26/06/2026</td></tr>
+            <tr><td>CT82</td><td>Cartão indisponível na rota ARTESP</td><td>ARTESP / Siga Fácil</td><td>Vanessa Carvalho</td><td><span class="status-badge s-ok">Aprovado</span></td><td>26/06/2026</td></tr>
+            <tr><td>CT79</td><td>Consultar sem aceite dos termos</td><td>ARTESP / Siga Fácil</td><td>Vanessa Carvalho</td><td><span class="status-badge s-fail">Reprovado</span></td><td>25/06/2026</td></tr>
+            <tr><td>CT45</td><td>Login com e-mail inválido</td><td>Login</td><td>Carlos Dev</td><td><span class="status-badge s-pend">Pendente</span></td><td>25/06/2026</td></tr>
+            <tr><td>CT32</td><td>Pagamento PIX fluxo feliz</td><td>Fluxo Feliz</td><td>Vanessa Carvalho</td><td><span class="status-badge s-block">Bloqueado</span></td><td>24/06/2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
