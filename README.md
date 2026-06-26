@@ -53,6 +53,9 @@ Arquivo: `sprint-backlog.pdf`
 Backlog completo com épicos, histórias e Sprint 1 ativo no Jira Software.  
 🔗 https://vanessadasilvacarvalhoc.atlassian.net/jira/software/projects/SCRUM/boards/1/backlog?sprints=1
 
+### Link Vídeo no YouTube
+🔗https://youtu.be/UDiBLipRiY4?feature=shared
+
 ---
 
 ## Personas
