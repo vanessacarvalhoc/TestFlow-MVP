@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>TestFlow – Sprint Backlog</title>
+<style>
+  @page { size: A4; margin: 20mm 15mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; color: #222; background: #fff; }
+  .header { background: #1E2D5A; color: #fff; padding: 24px 28px; margin-bottom: 24px; border-radius: 8px; }
+  .header .logo { font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 6px; }
+  .header .logo span { color: #4FC3F7; }
+  .header h1 { font-size: 22px; font-weight: 800; }
+  .header .meta { font-size: 12px; color: #90CAF9; margin-top: 8px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .sprint-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .info-card { border: 1.5px solid #E0E7FF; border-radius: 8px; padding: 12px 14px; }
+  .info-card .label { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 5px; }
+  .info-card .value { font-size: 13px; font-weight: 700; color: #1E2D5A; }
+  .goal-box { background: #EEF2FF; border: 1.5px solid #C5CAE9; border-radius: 8px; padding: 14px 16px; margin-bottom: 20px; }
+  .goal-box .goal-title { font-size: 12px; font-weight: 700; color: #1E2D5A; margin-bottom: 6px; }
+  .goal-box p { font-size: 13px; color: #333; line-height: 1.6; font-style: italic; }
+  .section-title { font-size: 15px; font-weight: 800; color: #1E2D5A; padding: 8px 12px; background: #EEF2FF; border-left: 4px solid #1E2D5A; margin-bottom: 14px; border-radius: 0 6px 6px 0; }
+  .us-card { border: 1.5px solid #E0E7FF; border-radius: 10px; margin-bottom: 20px; overflow: hidden; page-break-inside: avoid; }
+  .us-card-header { background: #1E2D5A; color: #fff; padding: 10px 16px; display: flex; align-items: center; gap: 10px; }
+  .us-id-badge { background: #4FC3F7; color: #1E2D5A; font-weight: 800; padding: 2px 9px; border-radius: 4px; font-size: 11px; white-space: nowrap; }
+  .us-title { font-weight: 700; font-size: 13px; flex: 1; }
+  .pts-badge { background: #fff; color: #1E2D5A; font-weight: 800; padding: 2px 10px; border-radius: 10px; font-size: 12px; white-space: nowrap; }
+  .enabler-header { background: #E65100; }
+  .us-card-body { padding: 14px 16px; }
+  .us-story { background: #F9FAFB; border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; font-size: 13px; color: #333; line-height: 1.6; border-left: 3px solid #1E2D5A; }
+  .us-story .persona { color: #1E88E5; font-weight: 700; }
+  .us-story .objetivo { color: #555; font-style: italic; }
+  .sub-section { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; margin-top: 10px; }
+  .ac-list { padding-left: 0; list-style: none; }
+  .ac-list li { display: flex; gap: 8px; margin-bottom: 6px; font-size: 12px; color: #333; line-height: 1.5; align-items: flex-start; }
+  .ac-list li::before { content: "✓"; color: #2E7D32; font-weight: 700; flex-shrink: 0; margin-top: 0; }
+  .ac-list li.fail::before { content: "✗"; color: #C62828; }
+  .details-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #F0F2F5; }
+  .detail-item .detail-label { font-size: 10px; color: #888; font-weight: 600; text-transform: uppercase; margin-bottom: 3px; }
+  .detail-item .detail-val { font-size: 12px; color: #333; font-weight: 600; }
+  .prio-alta { color: #C62828; }
+  .prio-media { color: #E65100; }
+  .prio-baixa { color: #2E7D32; }
+  .tag { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+  .tag-ep { background: #E8EAF6; color: #3949AB; }
+  .tag-feat { background: #E0F2F1; color: #00695C; }
+  .total-box { background: #1E2D5A; color: #fff; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+  .total-box .total-label { font-size: 13px; color: #90CAF9; }
+  .total-box .total-pts { font-size: 28px; font-weight: 900; color: #4FC3F7; }
+  .team-box { border: 1.5px solid #E0E7FF; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+  .team-box .box-title { background: #F0F4FF; padding: 9px 14px; font-size: 13px; font-weight: 700; color: #1E2D5A; }
+  .team-table { width: 100%; border-collapse: collapse; }
+  .team-table th { background: #F8F9FB; font-size: 11px; color: #888; font-weight: 600; padding: 8px 12px; text-align: left; border-bottom: 1px solid #EEE; }
+  .team-table td { padding: 8px 12px; font-size: 12px; border-bottom: 1px solid #F5F5F5; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Test<span>Flow</span></div>
+  <h1>Sprint 1 — Backlog Detalhado</h1>
+  <div class="meta">
+    <span>📅 Período: 01/07/2026 a 14/07/2026 (2 semanas)</span>
+    <span>👤 PO: Vanessa Carvalho</span>
+    <span>🔄 Sprint Goal: Fundação do produto</span>
+  </div>
+</div>
+
+<div class="sprint-info">
+  <div class="info-card">
+    <div class="label">Time</div>
+    <div class="value">4 pessoas</div>
+  </div>
+  <div class="info-card">
+    <div class="label">Duração</div>
+    <div class="value">2 semanas</div>
+  </div>
+  <div class="info-card">
+    <div class="label">Total Story Points</div>
+    <div class="value" style="color:#1E88E5;">24 SP</div>
+  </div>
+</div>
+
+<div class="goal-box">
+  <div class="goal-title">🎯 Sprint Goal</div>
+  <p>"Ao final desta sprint, um usuário poderá se cadastrar na plataforma, fazer login, criar casos de teste organizados em módulos e visualizar um dashboard básico com as métricas de qualidade da sprint."</p>
+</div>
+
+<div class="total-box">
+  <div>
+    <div class="total-label">Itens selecionados para a Sprint 1</div>
+    <div style="color:#fff;font-size:13px;margin-top:4px;">EN01 · US01 · US02 · US04 · US05 · US12</div>
+  </div>
+  <div style="text-align:right">
+    <div class="total-label">Story Points totais</div>
+    <div class="total-pts">24 SP</div>
+  </div>
+</div>
+
+<div class="section-title">Itens da Sprint — Detalhados</div>
+
+<!-- EN01 -->
+<div class="us-card">
+  <div class="us-card-header enabler-header">
+    <span class="us-id-badge">EN01</span>
+    <span class="us-title">🔧 Enabler — Configuração de Infraestrutura e Ambiente</span>
+    <span class="pts-badge">3 SP</span>
+  </div>
+  <div class="us-card-body">
+    <div class="us-story">
+      <strong>[Enabler Técnico]</strong> Configuração do repositório Git, estrutura do banco de dados PostgreSQL, projeto backend (Node.js) e frontend (React), pipeline de CI/CD básico e ambiente de homologação, para <span class="objetivo">habilitar o desenvolvimento de todas as histórias funcionais da Sprint 1</span>.
+    </div>
+    <div class="sub-section">Critérios de Aceitação</div>
+    <ul class="ac-list">
+      <li>Repositório Git criado com estrutura de pastas (backend/, frontend/, docs/)</li>
+      <li>Banco de dados PostgreSQL configurado com schema inicial (tabelas: users, projects, test_cases, modules)</li>
+      <li>API REST básica rodando em ambiente de homologação com health-check respondendo 200</li>
+      <li>Frontend React inicializado com roteamento básico e conexão com a API</li>
+      <li>Pipeline CI executando lint e testes unitários a cada push na branch main</li>
+    </ul>
+    <div class="details-grid">
+      <div class="detail-item"><div class="detail-label">Épico</div><div class="detail-val"><span class="tag tag-ep">EP02</span></div></div>
+      <div class="detail-item"><div class="detail-label">Responsável</div><div class="detail-val">Dev Backend + Dev Frontend</div></div>
+      <div class="detail-item"><div class="detail-label">Prioridade</div><div class="detail-val prio-alta">🔴 Alta</div></div>
+      <div class="detail-item"><div class="detail-label">Estimativa</div><div class="detail-val">3 Story Points</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- US01 -->
+<div class="us-card">
+  <div class="us-card-header">
+    <span class="us-id-badge">US01</span>
+    <span class="us-title">Cadastro de Usuário</span>
+    <span class="pts-badge">5 SP</span>
+  </div>
+  <div class="us-card-body">
+    <div class="us-story">
+      Como <span class="persona">usuário novo</span>, quero me cadastrar na plataforma informando nome, e-mail e senha, para <span class="objetivo">ter acesso ao sistema e começar a gerenciar meus testes de software</span>.
+    </div>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Positivo</div>
+    <ul class="ac-list">
+      <li>Formulário exibe os campos: Nome, Sobrenome, E-mail, Senha, Nome da Empresa e Tamanho do Time</li>
+      <li>Ao preencher todos os campos obrigatórios e clicar em "Criar conta", o usuário é cadastrado e redirecionado para o dashboard</li>
+      <li>E-mail de confirmação é enviado ao usuário após o cadastro</li>
+      <li>Senha é armazenada com hash seguro (bcrypt) — nunca em texto puro</li>
+    </ul>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Negativo</div>
+    <ul class="ac-list">
+      <li class="fail">Ao tentar cadastrar com e-mail já existente, exibe mensagem: "Este e-mail já está cadastrado."</li>
+      <li class="fail">Ao submeter com campos obrigatórios em branco, exibe mensagem de validação em cada campo</li>
+      <li class="fail">Senha com menos de 8 caracteres exibe mensagem: "A senha deve ter no mínimo 8 caracteres."</li>
+    </ul>
+    <div class="details-grid">
+      <div class="detail-item"><div class="detail-label">Épico / Feature</div><div class="detail-val"><span class="tag tag-ep">EP01</span> <span class="tag tag-feat">F01</span></div></div>
+      <div class="detail-item"><div class="detail-label">Responsável</div><div class="detail-val">Dev Backend + Dev Frontend</div></div>
+      <div class="detail-item"><div class="detail-label">Prioridade</div><div class="detail-val prio-alta">🔴 Alta</div></div>
+      <div class="detail-item"><div class="detail-label">Estimativa</div><div class="detail-val">5 Story Points</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- US02 -->
+<div class="us-card">
+  <div class="us-card-header">
+    <span class="us-id-badge">US02</span>
+    <span class="us-title">Login de Usuário</span>
+    <span class="pts-badge">3 SP</span>
+  </div>
+  <div class="us-card-body">
+    <div class="us-story">
+      Como <span class="persona">usuário cadastrado</span>, quero fazer login com e-mail e senha, para <span class="objetivo">acessar meus projetos e casos de teste de forma segura</span>.
+    </div>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Positivo</div>
+    <ul class="ac-list">
+      <li>Ao informar e-mail e senha corretos e clicar em "Entrar", o usuário é redirecionado para o Dashboard</li>
+      <li>Token JWT é gerado e armazenado para manter a sessão por 8 horas</li>
+      <li>Exibe saudação personalizada com o nome do usuário após o login</li>
+    </ul>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Negativo</div>
+    <ul class="ac-list">
+      <li class="fail">Ao informar credenciais inválidas, exibe: "E-mail ou senha incorretos." (sem indicar qual está errado)</li>
+      <li class="fail">Após 5 tentativas seguidas com falha, bloqueia login por 5 minutos</li>
+      <li class="fail">Campos obrigatórios em branco exibem mensagem de validação antes de submeter</li>
+    </ul>
+    <div class="details-grid">
+      <div class="detail-item"><div class="detail-label">Épico / Feature</div><div class="detail-val"><span class="tag tag-ep">EP01</span> <span class="tag tag-feat">F01</span></div></div>
+      <div class="detail-item"><div class="detail-label">Responsável</div><div class="detail-val">Dev Backend + Dev Frontend</div></div>
+      <div class="detail-item"><div class="detail-label">Prioridade</div><div class="detail-val prio-alta">🔴 Alta</div></div>
+      <div class="detail-item"><div class="detail-label">Estimativa</div><div class="detail-val">3 Story Points</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- US04 -->
+<div class="us-card">
+  <div class="us-card-header">
+    <span class="us-id-badge">US04</span>
+    <span class="us-title">Criar Caso de Teste</span>
+    <span class="pts-badge">8 SP</span>
+  </div>
+  <div class="us-card-body">
+    <div class="us-story">
+      Como <span class="persona">QA Analyst</span>, quero criar um caso de teste informando título, pré-condições, passos de execução e resultado esperado, para <span class="objetivo">documentar formalmente o que precisa ser testado em cada funcionalidade</span>.
+    </div>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Positivo</div>
+    <ul class="ac-list">
+      <li>Formulário exibe os campos: Título (obrigatório), Pré-condições, Massa de Dados, Passos (lista ordenada), Resultado Esperado positivo e negativo, Módulo, Prioridade, Responsável e Sprint</li>
+      <li>Ao salvar, o CT recebe ID automático sequencial (CT-001, CT-002...)</li>
+      <li>CT salvo aparece imediatamente na lista de casos do módulo selecionado</li>
+      <li>Passos de execução podem ser adicionados dinamicamente com o botão "+ Adicionar passo"</li>
+    </ul>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Negativo</div>
+    <ul class="ac-list">
+      <li class="fail">Ao tentar salvar sem título, exibe: "O título é obrigatório."</li>
+      <li class="fail">Ao tentar salvar sem nenhum passo de execução, exibe aviso de preenchimento</li>
+    </ul>
+    <div class="details-grid">
+      <div class="detail-item"><div class="detail-label">Épico / Feature</div><div class="detail-val"><span class="tag tag-ep">EP02</span> <span class="tag tag-feat">F02</span></div></div>
+      <div class="detail-item"><div class="detail-label">Responsável</div><div class="detail-val">Dev Backend + Dev Frontend</div></div>
+      <div class="detail-item"><div class="detail-label">Prioridade</div><div class="detail-val prio-alta">🔴 Alta</div></div>
+      <div class="detail-item"><div class="detail-label">Estimativa</div><div class="detail-val">8 Story Points</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- US05 -->
+<div class="us-card">
+  <div class="us-card-header">
+    <span class="us-id-badge">US05</span>
+    <span class="us-title">Organizar Casos de Teste em Módulos</span>
+    <span class="pts-badge">5 SP</span>
+  </div>
+  <div class="us-card-body">
+    <div class="us-story">
+      Como <span class="persona">QA Analyst</span>, quero organizar casos de teste em módulos e suites dentro de um projeto, para <span class="objetivo">facilitar a localização e execução por área do sistema testado</span>.
+    </div>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Positivo</div>
+    <ul class="ac-list">
+      <li>É possível criar um módulo informando apenas o nome</li>
+      <li>A listagem de CTs exibe uma árvore lateral com todos os módulos e a contagem de CTs em cada um</li>
+      <li>Ao clicar em um módulo, a lista central filtra exibindo apenas os CTs daquele módulo</li>
+      <li>O campo "Módulo" no formulário de criação de CT exibe os módulos existentes para seleção</li>
+    </ul>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Negativo</div>
+    <ul class="ac-list">
+      <li class="fail">Não é possível criar dois módulos com o mesmo nome dentro do mesmo projeto</li>
+      <li class="fail">Ao tentar excluir um módulo com CTs vinculados, exibe aviso de confirmação</li>
+    </ul>
+    <div class="details-grid">
+      <div class="detail-item"><div class="detail-label">Épico / Feature</div><div class="detail-val"><span class="tag tag-ep">EP02</span> <span class="tag tag-feat">F02</span></div></div>
+      <div class="detail-item"><div class="detail-label">Responsável</div><div class="detail-val">Dev Backend + Dev Frontend</div></div>
+      <div class="detail-item"><div class="detail-label">Prioridade</div><div class="detail-val prio-alta">🔴 Alta</div></div>
+      <div class="detail-item"><div class="detail-label">Estimativa</div><div class="detail-val">5 Story Points</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- US12 -->
+<div class="us-card">
+  <div class="us-card-header">
+    <span class="us-id-badge">US12</span>
+    <span class="us-title">Dashboard Básico de Qualidade</span>
+    <span class="pts-badge" style="background:#4FC3F7">8 SP</span>
+  </div>
+  <div class="us-card-body">
+    <div class="us-story">
+      Como <span class="persona">QA Manager</span>, quero visualizar um dashboard com o total de casos de teste por status (Aprovado, Reprovado, Pendente, Bloqueado), para <span class="objetivo">acompanhar o progresso da sprint e a saúde do projeto em tempo real</span>.
+    </div>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Positivo</div>
+    <ul class="ac-list">
+      <li>Dashboard exibe 4 cards de métricas: Total de CTs, Aprovados, Reprovados e Pendentes</li>
+      <li>Cards exibem o número total e o percentual em relação ao total da sprint</li>
+      <li>Seção "Cobertura por Módulo" exibe barra de progresso para cada módulo com percentual de aprovação</li>
+      <li>Tabela "Últimas Execuções" exibe as 10 execuções mais recentes com status e responsável</li>
+      <li>Dashboard atualiza as métricas automaticamente quando um novo resultado é registrado</li>
+    </ul>
+    <div class="sub-section">Critérios de Aceitação — Fluxo Negativo</div>
+    <ul class="ac-list">
+      <li class="fail">Quando não há CTs cadastrados, dashboard exibe estado vazio com mensagem orientativa</li>
+    </ul>
+    <div class="details-grid">
+      <div class="detail-item"><div class="detail-label">Épico / Feature</div><div class="detail-val"><span class="tag tag-ep">EP04</span> <span class="tag tag-feat">F04</span></div></div>
+      <div class="detail-item"><div class="detail-label">Responsável</div><div class="detail-val">Dev Frontend + Dev Backend</div></div>
+      <div class="detail-item"><div class="detail-label">Prioridade</div><div class="detail-val prio-alta">🔴 Alta</div></div>
+      <div class="detail-item"><div class="detail-label">Estimativa</div><div class="detail-val">8 Story Points</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Time -->
+<div class="team-box">
+  <div class="box-title">👥 Capacidade do Time — Sprint 1</div>
+  <table class="team-table">
+    <thead><tr><th>Pessoa</th><th>Papel</th><th>Histórias Responsável</th><th>Capacidade</th></tr></thead>
+    <tbody>
+      <tr><td>Vanessa Carvalho</td><td>Product Owner / QA</td><td>US01, US02 (validação), US04, US05, US12 (testes)</td><td>10 dias úteis</td></tr>
+      <tr><td>Dev Backend</td><td>Desenvolvedor Backend</td><td>EN01, US01 (API), US02 (auth), US04 (API), US12 (API)</td><td>10 dias úteis</td></tr>
+      <tr><td>Dev Frontend</td><td>Desenvolvedor Frontend</td><td>EN01, US01 (UI), US02 (UI), US04 (UI), US05 (UI), US12 (UI)</td><td>10 dias úteis</td></tr>
+      <tr><td>Scrum Master</td><td>Facilitação / QA</td><td>Remoção de impedimentos, cerimônias, suporte aos testes</td><td>10 dias úteis</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

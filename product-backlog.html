@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>TestFlow – Product Backlog</title>
+<style>
+  @page { size: A4; margin: 20mm 15mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; color: #222; background: #fff; }
+  .header { background: #1E2D5A; color: #fff; padding: 24px 28px; margin-bottom: 24px; border-radius: 8px; }
+  .header h1 { font-size: 22px; font-weight: 800; }
+  .header .logo { font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 6px; }
+  .header .logo span { color: #4FC3F7; }
+  .header .meta { font-size: 12px; color: #90CAF9; margin-top: 8px; display: flex; gap: 24px; }
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 15px; font-weight: 800; color: #1E2D5A; padding: 8px 12px; background: #EEF2FF; border-left: 4px solid #1E2D5A; margin-bottom: 12px; border-radius: 0 6px 6px 0; }
+  .epic { border: 1.5px solid #E0E7FF; border-radius: 8px; margin-bottom: 16px; overflow: hidden; page-break-inside: avoid; }
+  .epic-header { background: #1E2D5A; color: #fff; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+  .epic-header .epic-id { background: #4FC3F7; color: #1E2D5A; font-weight: 800; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+  .epic-header .epic-title { font-weight: 700; font-size: 13px; }
+  .epic-header .epic-wave { margin-left: auto; background: rgba(255,255,255,0.15); padding: 2px 10px; border-radius: 20px; font-size: 11px; }
+  .feature { background: #F0F4FF; padding: 8px 14px 4px; border-bottom: 1px solid #E0E7FF; }
+  .feature-label { font-size: 11px; color: #1E2D5A; font-weight: 700; margin-bottom: 4px; }
+  .feature-name { font-size: 12px; color: #333; font-weight: 600; }
+  .us-list { padding: 0; }
+  .us { padding: 10px 14px; border-bottom: 1px solid #F5F5F5; display: grid; grid-template-columns: 60px 1fr 80px 70px; gap: 10px; align-items: start; }
+  .us:last-child { border-bottom: none; }
+  .us:nth-child(even) { background: #FAFBFF; }
+  .us-id { font-weight: 800; color: #1E2D5A; font-size: 11px; }
+  .us-desc { font-size: 12px; color: #333; line-height: 1.5; }
+  .us-desc .persona { color: #1E88E5; font-weight: 600; }
+  .us-desc .objetivo { color: #555; font-style: italic; }
+  .us-pts { text-align: center; }
+  .pts-badge { display: inline-block; background: #1E2D5A; color: #fff; font-weight: 700; font-size: 11px; padding: 2px 8px; border-radius: 10px; }
+  .us-wave { font-size: 10px; color: #888; }
+  .wave-mvp { color: #2E7D32; font-weight: 700; }
+  .wave-inc1 { color: #E65100; font-weight: 700; }
+  .wave-inc2 { color: #7B1FA2; font-weight: 700; }
+  .enabler { background: #FFF8E1; }
+  .enabler .us-id { color: #E65100; }
+  /* DoR / DoD */
+  .dor-dod { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .dor-box, .dod-box { border: 1.5px solid #E0E7FF; border-radius: 8px; overflow: hidden; }
+  .dor-box .box-title { background: #1565C0; color: #fff; padding: 8px 14px; font-weight: 700; font-size: 13px; }
+  .dod-box .box-title { background: #1B5E20; color: #fff; padding: 8px 14px; font-weight: 700; font-size: 13px; }
+  .box-content { padding: 12px 14px; }
+  .check-item { display: flex; gap: 8px; margin-bottom: 7px; font-size: 12px; line-height: 1.4; color: #333; align-items: flex-start; }
+  .check-item::before { content: "☐"; font-size: 13px; flex-shrink: 0; margin-top: -1px; }
+  .rnf-tag { display: inline-block; background: #E8F5E9; color: #2E7D32; font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px; margin-left: 4px; }
+  .legend { background: #F9FAFB; border: 1px solid #EEE; border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; display: flex; gap: 20px; flex-wrap: wrap; }
+  .legend-item { font-size: 11px; color: #555; display: flex; align-items: center; gap: 5px; }
+  .col-header { display: grid; grid-template-columns: 60px 1fr 80px 70px; gap: 10px; padding: 6px 14px; background: #F0F0F0; font-size: 10px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+  .page-break { page-break-before: always; }
+  table.summary { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 12px; }
+  table.summary th { background: #1E2D5A; color: #fff; padding: 8px 12px; text-align: left; }
+  table.summary td { padding: 7px 12px; border-bottom: 1px solid #EEE; }
+  table.summary tr:nth-child(even) td { background: #F9FAFB; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Test<span>Flow</span></div>
+  <h1>Product Backlog</h1>
+  <div class="meta">
+    <span>📅 Data: Junho / 2026</span>
+    <span>👤 Product Owner: Vanessa Carvalho</span>
+    <span>🏢 Produto: TestFlow — Plataforma de Gestão de Testes</span>
+  </div>
+</div>
+
+<!-- RESUMO -->
+<div class="section">
+  <div class="section-title">Resumo do Backlog</div>
+  <table class="summary">
+    <thead><tr><th>Onda</th><th>Épico</th><th>Qtd Histórias</th><th>Story Points</th><th>Prioridade</th></tr></thead>
+    <tbody>
+      <tr><td><span class="wave-mvp">MVP (Onda 1)</span></td><td>EP01 – Autenticação</td><td>2</td><td>8 pts</td><td>🔴 Alta</td></tr>
+      <tr><td><span class="wave-mvp">MVP (Onda 1)</span></td><td>EP02 – Gestão de CTs</td><td>2 + 1 enabler</td><td>16 pts</td><td>🔴 Alta</td></tr>
+      <tr><td><span class="wave-mvp">MVP (Onda 1)</span></td><td>EP03 – Execução de Testes</td><td>2</td><td>10 pts</td><td>🔴 Alta</td></tr>
+      <tr><td><span class="wave-mvp">MVP (Onda 1)</span></td><td>EP04 – Dashboard</td><td>1</td><td>8 pts</td><td>🔴 Alta</td></tr>
+      <tr><td><span class="wave-inc1">Incremento 1</span></td><td>EP05 – Gestão de Defeitos</td><td>2</td><td>11 pts</td><td>🟡 Média</td></tr>
+      <tr><td><span class="wave-inc1">Incremento 1</span></td><td>EP06 – Relatórios</td><td>1</td><td>8 pts</td><td>🟡 Média</td></tr>
+      <tr><td><span class="wave-inc1">Incremento 1</span></td><td>EP07 – Rastreabilidade</td><td>3</td><td>11 pts</td><td>🟡 Média</td></tr>
+      <tr><td><span class="wave-inc2">Incremento 2</span></td><td>EP08 – Integrações</td><td>2</td><td>21 pts</td><td>🟢 Baixa</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="wave-mvp">■</span> MVP – Onda 1</div>
+  <div class="legend-item"><span class="wave-inc1">■</span> Incremento 1 – Onda 2</div>
+  <div class="legend-item"><span class="wave-inc2">■</span> Incremento 2 – Onda 3</div>
+  <div class="legend-item">🔧 Enabler – item técnico habilitador</div>
+  <div class="legend-item"><span class="pts-badge">SP</span> Story Points (Fibonacci)</div>
+</div>
+
+<!-- EP01 -->
+<div class="section">
+  <div class="section-title">Épicos e Histórias de Usuário</div>
+
+  <div class="epic">
+    <div class="epic-header">
+      <span class="epic-id">EP01</span>
+      <span class="epic-title">Autenticação e Controle de Acesso</span>
+      <span class="epic-wave">MVP – Onda 1</span>
+    </div>
+    <div class="feature">
+      <div class="feature-label">FEATURE</div>
+      <div class="feature-name">F01 – Cadastro e Login de Usuários</div>
+    </div>
+    <div class="col-header"><div>ID</div><div>História de Usuário</div><div>Story Points</div><div>Onda</div></div>
+    <div class="us-list">
+      <div class="us">
+        <div class="us-id">US01</div>
+        <div class="us-desc">Como <span class="persona">usuário novo</span>, quero me cadastrar na plataforma informando nome, e-mail e senha, para <span class="objetivo">ter acesso ao sistema e começar a gerenciar meus testes</span>.</div>
+        <div class="us-pts"><span class="pts-badge">5 SP</span></div>
+        <div class="us-wave wave-mvp">MVP</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US02</div>
+        <div class="us-desc">Como <span class="persona">usuário cadastrado</span>, quero fazer login com e-mail e senha, para <span class="objetivo">acessar meus projetos e casos de teste</span>.</div>
+        <div class="us-pts"><span class="pts-badge">3 SP</span></div>
+        <div class="us-wave wave-mvp">MVP</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US03</div>
+        <div class="us-desc">Como <span class="persona">QA Manager</span>, quero convidar membros para meu time por e-mail, para <span class="objetivo">que possam colaborar nos projetos de teste</span>.</div>
+        <div class="us-pts"><span class="pts-badge">5 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EP02 -->
+  <div class="epic">
+    <div class="epic-header">
+      <span class="epic-id">EP02</span>
+      <span class="epic-title">Gestão de Casos de Teste</span>
+      <span class="epic-wave">MVP – Onda 1</span>
+    </div>
+    <div class="feature">
+      <div class="feature-label">FEATURE</div>
+      <div class="feature-name">F02 – Criação e Organização de Casos de Teste em Módulos</div>
+    </div>
+    <div class="col-header"><div>ID</div><div>História de Usuário</div><div>Story Points</div><div>Onda</div></div>
+    <div class="us-list">
+      <div class="us enabler">
+        <div class="us-id">EN01 🔧</div>
+        <div class="us-desc"><strong>[Enabler]</strong> Configuração do ambiente de desenvolvimento, repositório Git, estrutura de banco de dados e pipeline CI/CD básico, para <span class="objetivo">habilitar o desenvolvimento das histórias funcionais</span>.</div>
+        <div class="us-pts"><span class="pts-badge">3 SP</span></div>
+        <div class="us-wave wave-mvp">MVP</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US04</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero criar um caso de teste informando título, pré-condições, passos de execução e resultado esperado, para <span class="objetivo">documentar formalmente o que precisa ser testado</span>.</div>
+        <div class="us-pts"><span class="pts-badge">8 SP</span></div>
+        <div class="us-wave wave-mvp">MVP</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US05</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero organizar casos de teste em módulos e suites dentro de um projeto, para <span class="objetivo">facilitar a localização e execução por área do sistema</span>.</div>
+        <div class="us-pts"><span class="pts-badge">5 SP</span></div>
+        <div class="us-wave wave-mvp">MVP</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US06</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero editar e versionar casos de teste existentes, para <span class="objetivo">mantê-los atualizados conforme a evolução do sistema</span>.</div>
+        <div class="us-pts"><span class="pts-badge">3 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US07</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero buscar casos de teste por título ou módulo, para <span class="objetivo">encontrá-los rapidamente sem precisar navegar por toda a lista</span>.</div>
+        <div class="us-pts"><span class="pts-badge">3 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EP03 -->
+  <div class="epic">
+    <div class="epic-header">
+      <span class="epic-id">EP03</span>
+      <span class="epic-title">Execução de Testes</span>
+      <span class="epic-wave">MVP – Onda 1</span>
+    </div>
+    <div class="feature">
+      <div class="feature-label">FEATURE</div>
+      <div class="feature-name">F03 – Plano de Execução e Registro de Resultados</div>
+    </div>
+    <div class="col-header"><div>ID</div><div>História de Usuário</div><div>Story Points</div><div>Onda</div></div>
+    <div class="us-list">
+      <div class="us">
+        <div class="us-id">US08</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero criar um plano de execução vinculando casos de teste a uma sprint ou release, para <span class="objetivo">organizar o ciclo de testes de cada entrega</span>.</div>
+        <div class="us-pts"><span class="pts-badge">5 SP</span></div>
+        <div class="us-wave wave-mvp">MVP</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US09</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero registrar o resultado de cada caso de teste como Aprovado, Reprovado, Bloqueado ou N/A, para <span class="objetivo">registrar formalmente o progresso da execução</span>.</div>
+        <div class="us-pts"><span class="pts-badge">5 SP</span></div>
+        <div class="us-wave wave-mvp">MVP</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US10</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero adicionar observações de texto ao resultado de um caso de teste, para <span class="objetivo">documentar o comportamento encontrado durante a execução</span>.</div>
+        <div class="us-pts"><span class="pts-badge">3 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US11</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero visualizar o histórico de execuções anteriores de um caso de teste, para <span class="objetivo">comparar resultados entre sprints e identificar regressões</span>.</div>
+        <div class="us-pts"><span class="pts-badge">5 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EP04 -->
+  <div class="epic">
+    <div class="epic-header">
+      <span class="epic-id">EP04</span>
+      <span class="epic-title">Dashboard de Qualidade</span>
+      <span class="epic-wave">MVP – Onda 1</span>
+    </div>
+    <div class="feature">
+      <div class="feature-label">FEATURE</div>
+      <div class="feature-name">F04 – Dashboard com Métricas de Qualidade em Tempo Real</div>
+    </div>
+    <div class="col-header"><div>ID</div><div>História de Usuário</div><div>Story Points</div><div>Onda</div></div>
+    <div class="us-list">
+      <div class="us">
+        <div class="us-id">US12</div>
+        <div class="us-desc">Como <span class="persona">QA Manager</span>, quero visualizar um dashboard com o total de casos de teste por status (Aprovado, Reprovado, Pendente, Bloqueado), para <span class="objetivo">acompanhar o progresso da sprint em tempo real</span>.</div>
+        <div class="us-pts"><span class="pts-badge">8 SP</span></div>
+        <div class="us-wave wave-mvp">MVP</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US13</div>
+        <div class="us-desc">Como <span class="persona">Tech Lead</span>, quero visualizar a cobertura de testes por módulo no dashboard, para <span class="objetivo">identificar áreas do sistema sem cobertura de teste antes do release</span>.</div>
+        <div class="us-pts"><span class="pts-badge">5 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EP05 -->
+  <div class="epic">
+    <div class="epic-header">
+      <span class="epic-id">EP05</span>
+      <span class="epic-title">Gestão de Defeitos</span>
+      <span class="epic-wave">Incremento 1</span>
+    </div>
+    <div class="feature">
+      <div class="feature-label">FEATURE</div>
+      <div class="feature-name">F05 – Rastreamento de Bugs e Defeitos</div>
+    </div>
+    <div class="col-header"><div>ID</div><div>História de Usuário</div><div>Story Points</div><div>Onda</div></div>
+    <div class="us-list">
+      <div class="us">
+        <div class="us-id">US14</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero abrir um defeito vinculado a um caso de teste reprovado, informando título, severidade e descrição, para <span class="objetivo">rastrear o bug até a sua correção</span>.</div>
+        <div class="us-pts"><span class="pts-badge">8 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US15</div>
+        <div class="us-desc">Como <span class="persona">desenvolvedor</span>, quero atualizar o status de um defeito para "Corrigido", para <span class="objetivo">comunicar ao time de QA que está pronto para reteste</span>.</div>
+        <div class="us-pts"><span class="pts-badge">3 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EP06 -->
+  <div class="epic">
+    <div class="epic-header">
+      <span class="epic-id">EP06</span>
+      <span class="epic-title">Relatórios e Exportação</span>
+      <span class="epic-wave">Incremento 1</span>
+    </div>
+    <div class="feature">
+      <div class="feature-label">FEATURE</div>
+      <div class="feature-name">F06 – Geração de Relatórios em PDF</div>
+    </div>
+    <div class="col-header"><div>ID</div><div>História de Usuário</div><div>Story Points</div><div>Onda</div></div>
+    <div class="us-list">
+      <div class="us">
+        <div class="us-id">US16</div>
+        <div class="us-desc">Como <span class="persona">QA Manager</span>, quero exportar o relatório de execução da sprint em PDF com métricas e lista de defeitos, para <span class="objetivo">apresentar os resultados à diretoria sem montar o documento manualmente</span>.</div>
+        <div class="us-pts"><span class="pts-badge">8 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EP07 -->
+  <div class="epic">
+    <div class="epic-header">
+      <span class="epic-id">EP07</span>
+      <span class="epic-title">Rastreabilidade</span>
+      <span class="epic-wave">Incremento 1</span>
+    </div>
+    <div class="feature">
+      <div class="feature-label">FEATURE</div>
+      <div class="feature-name">F07 – Vinculação de CTs a Histórias de Usuário</div>
+    </div>
+    <div class="col-header"><div>ID</div><div>História de Usuário</div><div>Story Points</div><div>Onda</div></div>
+    <div class="us-list">
+      <div class="us">
+        <div class="us-id">US17</div>
+        <div class="us-desc">Como <span class="persona">QA Analyst</span>, quero vincular um caso de teste a uma história de usuário do backlog, para <span class="objetivo">garantir rastreabilidade completa entre requisito e teste</span>.</div>
+        <div class="us-pts"><span class="pts-badge">5 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US18</div>
+        <div class="us-desc">Como <span class="persona">Tech Lead</span>, quero visualizar quais histórias de usuário possuem casos de teste vinculados, para <span class="objetivo">verificar a cobertura de requisitos antes do release</span>.</div>
+        <div class="us-pts"><span class="pts-badge">3 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US19</div>
+        <div class="us-desc">Como <span class="persona">QA Manager</span>, quero receber notificação quando um defeito for aberto ou atualizado, para <span class="objetivo">acompanhar o andamento das correções em tempo real</span>.</div>
+        <div class="us-pts"><span class="pts-badge">3 SP</span></div>
+        <div class="us-wave wave-inc1">Inc. 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EP08 -->
+  <div class="epic">
+    <div class="epic-header">
+      <span class="epic-id">EP08</span>
+      <span class="epic-title">Integrações Externas</span>
+      <span class="epic-wave">Incremento 2</span>
+    </div>
+    <div class="feature">
+      <div class="feature-label">FEATURE</div>
+      <div class="feature-name">F08 – Integração com Jira e Ferramentas de CI/CD</div>
+    </div>
+    <div class="col-header"><div>ID</div><div>História de Usuário</div><div>Story Points</div><div>Onda</div></div>
+    <div class="us-list">
+      <div class="us">
+        <div class="us-id">US20</div>
+        <div class="us-desc">Como <span class="persona">QA Manager</span>, quero integrar o TestFlow com o Jira para importar histórias de usuário automaticamente, para <span class="objetivo">eliminar a duplicação manual de informações entre ferramentas</span>.</div>
+        <div class="us-pts"><span class="pts-badge">13 SP</span></div>
+        <div class="us-wave wave-inc2">Inc. 2</div>
+      </div>
+      <div class="us">
+        <div class="us-id">US21</div>
+        <div class="us-desc">Como <span class="persona">Tech Lead</span>, quero visualizar o resultado das execuções de teste diretamente no pipeline de CI/CD, para <span class="objetivo">bloquear automaticamente deploys com falhas críticas de teste</span>.</div>
+        <div class="us-pts"><span class="pts-badge">8 SP</span></div>
+        <div class="us-wave wave-inc2">Inc. 2</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DoR e DoD -->
+<div class="page-break"></div>
+<div class="header" style="margin-top:0">
+  <div class="logo">Test<span>Flow</span></div>
+  <h1>Definition of Ready &amp; Definition of Done</h1>
+</div>
+
+<div class="dor-dod">
+  <div class="dor-box">
+    <div class="box-title">☑ Definition of Ready (DoR)</div>
+    <div class="box-content">
+      <p style="font-size:11px;color:#555;margin-bottom:10px;">Uma história de usuário está pronta para entrar na sprint quando atender a todos os critérios abaixo:</p>
+      <div class="check-item">Título claro e descrição no formato: "Como [persona], quero [ação], para [objetivo]"</div>
+      <div class="check-item">Mínimo de 3 critérios de aceitação definidos e validados pelo PO</div>
+      <div class="check-item">Estimativa em story points realizada pelo time (Planning Poker)</div>
+      <div class="check-item">Sem dependências bloqueantes identificadas</div>
+      <div class="check-item">Mockup ou wireframe disponível para histórias com interface</div>
+      <div class="check-item">Massa de dados e dados de entrada definidos</div>
+      <div class="check-item">Regras de negócio documentadas e validadas com stakeholders</div>
+    </div>
+  </div>
+  <div class="dod-box">
+    <div class="box-title">✅ Definition of Done (DoD)</div>
+    <div class="box-content">
+      <p style="font-size:11px;color:#555;margin-bottom:10px;">Uma história de usuário está concluída quando atender a todos os critérios abaixo:</p>
+      <div class="check-item">Código desenvolvido e aprovado em code review (mínimo 1 aprovação)</div>
+      <div class="check-item">Testes unitários escritos com cobertura mínima de 70% <span class="rnf-tag">RNF</span></div>
+      <div class="check-item">Todos os critérios de aceitação testados e aprovados</div>
+      <div class="check-item">Nenhum bug crítico ou grave em aberto</div>
+      <div class="check-item">Deploy realizado e validado em ambiente de homologação</div>
+      <div class="check-item">Product Owner validou a entrega conforme critérios de aceitação</div>
+      <div class="check-item">Tempo de resposta das operações principais inferior a 2 segundos <span class="rnf-tag">RNF</span></div>
+      <div class="check-item">Interface validada em desktop (1280px) e mobile (375px) <span class="rnf-tag">RNF</span></div>
+      <div class="check-item">Acessibilidade básica atendida (WCAG 2.1 nível AA) <span class="rnf-tag">RNF</span></div>
+      <div class="check-item">Documentação técnica atualizada no repositório</div>
+    </div>
+  </div>
+</div>
+
+<div style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:6px;padding:10px 14px;font-size:11px;color:#555;">
+  <strong>🏷️ RNF = Requisito Não Funcional</strong> — Critérios que garantem qualidade técnica, performance, acessibilidade e responsividade do produto, independente da funcionalidade entregue.
+</div>
+
+</body>
+</html>
